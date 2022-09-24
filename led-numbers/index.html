@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>LED Numbers</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="controls.js"></script>
+    </head>
+    <body>
+        <div class="led-numbers">
+            <div class="led-number">
+                <svg width="800" height="600">
+                    
+                </svg>
+        </div>
+    </body>
+    <script>
+        // generate svg circle grid
+        var svg = document.querySelector('svg');
+        var svgNS = svg.namespaceURI;
+        var circle;
+
+        var paddingX = 15;
+        var paddingY = 15;
+
+        var r = 10;
+        var dx = 2 * r;
+        var dy = 2 * r;
+
+        var n = 29;
+        var m = 9;
+        for (let i = 0; i < n; i++) {
+            for (let j = 0; j < m; j++) {
+                let cx = paddingX + (dx+3) * i;
+                let cy = paddingY + dy * j;
+                circle = document.createElementNS(svgNS, 'circle');
+                circle.setAttributeNS(null, 'cx', cx);
+                circle.setAttributeNS(null, 'cy', cy);
+                circle.setAttributeNS(null, 'r', r);
+                circle.setAttributeNS(null, 'fill', 'none');
+                circle.setAttributeNS(null, 'stroke', 'black');
+                circle.setAttributeNS(null, 'stroke-width', '1');
+                svg.appendChild(circle);
+            }
+        }
+    </script>
+</html>
