@@ -31,7 +31,7 @@
         var m = 9;
         for (let i = 0; i < n; i++) {
             for (let j = 0; j < m; j++) {
-                let cx = paddingX + (dx+3) * i;
+                let cx = paddingX + dx * i;
                 let cy = paddingY + dy * j;
                 circle = document.createElementNS(svgNS, 'circle');
                 circle.setAttributeNS(null, 'cx', cx);
@@ -40,6 +40,7 @@
                 circle.setAttributeNS(null, 'fill', 'none');
                 circle.setAttributeNS(null, 'stroke', 'black');
                 circle.setAttributeNS(null, 'stroke-width', '1');
+                circle.setAttributeNS(null, 'id', 'circle-' + i + '-' + j);
                 svg.appendChild(circle);
             }
         }
