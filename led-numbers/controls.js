@@ -24,6 +24,14 @@ function getDigits(number) {
 }
 
 $(document).ready(function() {
+    $("circle").on("click", function() {
+        let color = $(this).css('fill');
+        if (color == 'rgb(0, 0, 0)') {
+            $(this).css('fill', 'rgb(255, 255, 255)');
+        } else {
+            $(this).css('fill', 'rgb(0, 0, 0)');
+        }
+    });
     turnOnLeds(getColoredLeds());
 });
 
