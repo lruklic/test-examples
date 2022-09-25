@@ -22,15 +22,67 @@ let digits = {
 }
 
 function getDigits(number) {
+    let originalNumber = number;
     let digits = [];
-    while (number > 0) {
-        digits.push(number % 10);
-        number = Math.floor(number / 10);
+    if (number == 0) {
+        digits.push(0);
+    } else {
+        while (number > 0) {
+            digits.push(number % 10);
+            number = Math.floor(number / 10);
+        }
     }
+
+    if (originalNumber < 10) {
+        digits.push('x');
+        digits.push('x');
+        digits.push('x');
+    } else if (originalNumber < 100) {
+        digits.push('x');
+        digits.push('x');
+    } else if (originalNumber < 1000) {
+        digits.push('x');
+    }
+
     return digits.reverse();
+
+}
+
+function generateLedDisplay() {
+    // generate svg circle grid
+    var svg = document.querySelector('svg');
+    var svgNS = svg.namespaceURI;
+    var circle;
+
+    var paddingX = 15;
+    var paddingY = 15;
+
+    var r = 10;
+    var dx = 2 * r;
+    var dy = 2 * r;
+
+    for (let i = 0; i < LED_PANEL_WIDTH; i++) {
+        for (let j = 0; j < LED_PANEL_HEIGHT; j++) {
+            let cx = paddingX + dx * i;
+            let cy = paddingY + dy * j;
+            circle = document.createElementNS(svgNS, 'circle');
+            circle.setAttributeNS(null, 'cx', cx);
+            circle.setAttributeNS(null, 'cy', cy);
+            circle.setAttributeNS(null, 'r', r);
+            circle.setAttributeNS(null, 'fill', 'rgb(255, 255, 255)');
+            circle.setAttributeNS(null, 'stroke', 'black');
+            circle.setAttributeNS(null, 'stroke-width', '1');
+            circle.setAttributeNS(null, 'id', 'circle-' + i + '-' + j);
+            circle.setAttributeNS(null, 'class', 'led-circle');
+            svg.appendChild(circle);
+        }
+    }
 }
 
 $(document).ready(function() {
+
+    generateLedDisplay();
+
     $("circle").on("click", function() {
         let color = $(this).css('fill');
         if (color == 'rgb(0, 0, 0)') {
@@ -119,6 +171,8 @@ function getColoredLedsForNumber(number, offset) {
 }
 
 function getColoredLedsForDigit(digit, position) {
+    if (digit === 'x') {
+        return [];
     let digitPositions = JSON.parse(JSON.stringify(digits[digit]));
     
     for (let i = 0; i < digitPositions.length; i++) {
