@@ -1,8 +1,12 @@
 let numbers = [1204, 5678, 9632, 2354];
 let coloredLeds = [];
 
-let REFERSH_TIME = 50;
-let COUNTDOWN_TIME = 20;
+let pointer = 0;
+
+let wait = LED_PANEL_WIDTH + 3;
+let countdown = COUNTDOWN_TIME;
+
+let startedAnimationId = 0;
 
 let digits = {
     0: [[0, 0], [0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6], [0, 7], [0, 8], [1, 0], [1, 8], [2, 0], [2, 8], [3, 0], [3, 8], [4, 0], [4, 1], [4, 2], [4, 3], [4, 4], [4, 5], [4, 6], [4, 7], [4, 8]],
@@ -40,16 +44,11 @@ $(document).ready(function() {
 });
 
 function startAnimation() {
-    let pointer = 0;
 
-    let wait = 32;
-    let countdown = COUNTDOWN_TIME;
-    let step = 0;
-    let maxSteps = 32*3;
     let redrawIntervalId = 0;
 
     redrawIntervalId = setInterval(function() {
-        if (wait < 32) {
+        if (wait < LED_PANEL_WIDTH + 3) {
             redrawDigits();
             wait++;
         } else {
@@ -57,9 +56,9 @@ function startAnimation() {
                 countdown--;
                 console.log("LOWER CD " + countdown);
             } else {
-                coloredLeds.push(...getColoredLedsForNumber(numbers[pointer], 4));
+                coloredLeds.push(...getColoredLedsForNumber(numbers[pointer], NUMBER_OF_VALUES));
                 pointer++;
-                if (pointer > 3) {
+                if (pointer > (NUMBER_OF_VALUES-1)) {
                     pointer = 0;
                 }
                 wait = 0;
@@ -67,7 +66,9 @@ function startAnimation() {
             }
         }
         
-    }, REFERSH_TIME);
+    }, REFRESH_TIME);
+
+    return redrawIntervalId;
     
 }
 
@@ -121,7 +122,7 @@ function getColoredLedsForDigit(digit, position) {
     let digitPositions = JSON.parse(JSON.stringify(digits[digit]));
     
     for (let i = 0; i < digitPositions.length; i++) {
-        digitPositions[i][0] += position * 5 + position*3;
+        digitPositions[i][0] += position * DIGIT_WIDTH + position * GAP_WIDTH;
     }
     return digitPositions;
 }
