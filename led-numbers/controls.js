@@ -1,4 +1,4 @@
-let numbers = [1204, 5678, 9632, 2354];
+let numbers = [0, 12, 345, 6789];
 let coloredLeds = [];
 
 let pointer = 0;
@@ -122,7 +122,6 @@ function startAnimation() {
         } else {
             if (countdown > 0) {
                 countdown--;
-                console.log("LOWER CD " + countdown);
             } else {
                 coloredLeds.push(...getColoredLedsForNumber(numbers[pointer], NUMBER_OF_VALUES));
                 pointer++;
@@ -182,13 +181,13 @@ function getColoredLedsForNumber(number, offset) {
         coloredLeds.push(...coloredLedsForDigit);
     }  
 
-    console.log(coloredLeds)
     return coloredLeds;  
 }
 
 function getColoredLedsForDigit(digit, position) {
     if (digit === 'x') {
         return [];
+    } 
     let digitPositions = JSON.parse(JSON.stringify(digits[digit]));
     
     for (let i = 0; i < digitPositions.length; i++) {
