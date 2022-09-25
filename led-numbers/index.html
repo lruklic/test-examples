@@ -10,41 +10,21 @@
     <body>
         <div class="led-numbers">
             <div class="led-number">
-                <svg width="800" height="600">
-                    
-                </svg>
+                <svg width="800" height="200"></svg>
+        </div>
+        <div>
+            <input type="number" id="value-0" value="0" min="0">
+            <input type="number" id="value-1" value="0" min="0">
+            <input type="number" id="value-2" value="0" min="0">
+            <input type="number" id="value-3" value="0" min="0">
+            <button id="update-values">Update values</button>
+        </div>
+        <div class="padding-top-5">
+            <button id="start-animation">Start animation</button>
+            <button id="stop-animation">Stop animation</button>
         </div>
     </body>
     <script>
-        // generate svg circle grid
-        var svg = document.querySelector('svg');
-        var svgNS = svg.namespaceURI;
-        var circle;
 
-        var paddingX = 15;
-        var paddingY = 15;
-
-        var r = 10;
-        var dx = 2 * r;
-        var dy = 2 * r;
-
-        var n = 29;
-        var m = 9;
-        for (let i = 0; i < n; i++) {
-            for (let j = 0; j < m; j++) {
-                let cx = paddingX + dx * i;
-                let cy = paddingY + dy * j;
-                circle = document.createElementNS(svgNS, 'circle');
-                circle.setAttributeNS(null, 'cx', cx);
-                circle.setAttributeNS(null, 'cy', cy);
-                circle.setAttributeNS(null, 'r', r);
-                circle.setAttributeNS(null, 'fill', 'rgb(255, 255, 255)');
-                circle.setAttributeNS(null, 'stroke', 'black');
-                circle.setAttributeNS(null, 'stroke-width', '1');
-                circle.setAttributeNS(null, 'id', 'circle-' + i + '-' + j);
-                circle.setAttributeNS(null, 'class', 'led-circle');
-                svg.appendChild(circle);
-            }
-        }
     </script>
 </html>

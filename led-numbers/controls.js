@@ -91,6 +91,22 @@ $(document).ready(function() {
             $(this).css('fill', 'rgb(0, 0, 0)');
         }
     });
+
+    $("#update-values").on("click", function() {
+        numbers = [];
+        for (let i = 0; i < NUMBER_OF_VALUES; i++) {
+            numbers.push(parseInt($("#value-" + i).val()));
+        }
+    });
+
+    $("#start-animation").on("click", function() {
+        startedAnimationId = startAnimation();
+    });
+
+    $("#stop-animation").on("click", function() {
+        clearInterval(startedAnimationId);
+    });
+
     coloredLeds = getColoredLeds();
     turnOnLeds(coloredLeds);
 });
