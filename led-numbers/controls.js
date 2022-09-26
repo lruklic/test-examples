@@ -1,5 +1,6 @@
 let numbers = [0, 12, 345, 6789];
 let coloredLeds = [];
+let gapsLeds = [];
 
 let pointer = 0;
 
@@ -60,6 +61,23 @@ function generateLedDisplay() {
     var r = 10;
     var dx = 2 * r;
     var dy = 2 * r;
+    
+    if (HIDE_LED_GAPS) {
+        let digitSpace = DIGIT_WIDTH;
+        let gapSpace = GAP_WIDTH;
+        for (let i = 0; i < LED_PANEL_WIDTH; i++) {
+            if (digitSpace > 0) {
+                digitSpace--;
+            } else if (gapSpace > 0) {
+                gapsLeds.push(i);
+                gapSpace--;
+                if (gapSpace == 0) {
+                    digitSpace = DIGIT_WIDTH;
+                    gapSpace = GAP_WIDTH;
+                }
+            }
+        }
+    }
 
     for (let i = 0; i < LED_PANEL_WIDTH; i++) {
         for (let j = 0; j < LED_PANEL_HEIGHT; j++) {
@@ -70,7 +88,11 @@ function generateLedDisplay() {
             circle.setAttributeNS(null, 'cy', cy);
             circle.setAttributeNS(null, 'r', r);
             circle.setAttributeNS(null, 'fill', 'rgb(255, 255, 255)');
-            circle.setAttributeNS(null, 'stroke', 'black');
+            if (gapsLeds.includes(i)) { 
+                circle.setAttributeNS(null, 'stroke', GAP_LED_STROKE);
+            } else {
+                circle.setAttributeNS(null, 'stroke', DIGIT_LED_STROKE);
+            }
             circle.setAttributeNS(null, 'stroke-width', '1');
             circle.setAttributeNS(null, 'id', 'circle-' + i + '-' + j);
             circle.setAttributeNS(null, 'class', 'led-circle');
@@ -154,7 +176,13 @@ function redrawDigits() {
 function turnOnLeds(coloredLeds) {
     for (let i = 0; i < coloredLeds.length; i++) {
         let led = coloredLeds[i];
-        $("#circle-" + led[0] + "-" + led[1]).css('fill', 'rgb(0, 0, 0)');
+        console.log(led[0])
+        if (gapsLeds.includes(led[0])) {
+            $("#circle-" + led[0] + "-" + led[1]).css('fill', '#fff');
+        } else {
+            $("#circle-" + led[0] + "-" + led[1]).css('fill', DIGIT_LED_FILL);
+        }
+        
     }
 }
 

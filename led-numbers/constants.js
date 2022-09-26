@@ -18,3 +18,15 @@ let DIGIT_WIDTH = 5;
 
 // Gap width in LEDs
 let GAP_WIDTH = 3;
+
+// Stroke for SVG digit circles
+let DIGIT_LED_STROKE = "#add8e6";
+
+// Stroke for SVG gap circles
+let GAP_LED_STROKE = "#ffffff";
+
+// Fill color of LED
+let DIGIT_LED_FILL = "#2e367a";
+
+// Whether to use gaps between digits while animating
+let HIDE_LED_GAPS = true;
