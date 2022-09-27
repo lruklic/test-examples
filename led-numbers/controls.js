@@ -161,6 +161,19 @@ function startAnimation() {
     
 }
 
+function startAnimationRandom() {
+
+    redrawIntervalId = setInterval(function() {
+        coloredLeds.push(...getColoredLedsForNumber(numbers[pointer], NUMBER_OF_VALUES));
+        pointer++;
+        if (pointer > (NUMBER_OF_VALUES-1)) {
+            pointer = 0;
+        }
+        redrawDigitsRandom();
+    }, REFRESH_TIME_RANDOM);
+
+}
+
 function redrawDigits() {
     for (let i = 0; i < coloredLeds.length; i++) {
         coloredLeds[i][0] = coloredLeds[i][0] - 1;
@@ -173,14 +186,31 @@ function redrawDigits() {
 
 }
 
-function turnOnLeds(coloredLeds) {
+function redrawDigitsRandom() {
+    for (let i = 0; i < coloredLeds.length; i++) {
+        coloredLeds[i][0] = coloredLeds[i][0] - LED_PANEL_WIDTH - 3;
+    }
+    // Reset all LED to white
+    $(".led-circle").css('fill', 'rgb(255, 255, 255)');
+
+    // Turn on LEDs
+    turnOnLeds(coloredLeds, true);
+
+}
+
+function turnOnLeds(coloredLeds, random=false) {
     for (let i = 0; i < coloredLeds.length; i++) {
         let led = coloredLeds[i];
-        console.log(led[0])
         if (gapsLeds.includes(led[0])) {
             $("#circle-" + led[0] + "-" + led[1]).css('fill', '#fff');
         } else {
-            $("#circle-" + led[0] + "-" + led[1]).css('fill', DIGIT_LED_FILL);
+            if (random) {
+                // Generate random number between 1 and 
+                let rand = Math.floor(Math.random() * 4) + 1;
+                $("#circle-" + led[0] + "-" + led[1]).css({fill : DIGIT_LED_FILL, transition: rand+".0s"});
+            } else {
+                $("#circle-" + led[0] + "-" + led[1]).css('fill', DIGIT_LED_FILL);
+            }
         }
         
     }

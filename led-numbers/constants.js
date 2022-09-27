@@ -1,6 +1,8 @@
 // Refresh between two LED movements in ms
 let REFRESH_TIME = 50;
 
+let REFRESH_TIME_RANDOM = 5000;
+
 // Countdown how long number stays in place x REFRESH_TIME
 let COUNTDOWN_TIME = 20;
 
