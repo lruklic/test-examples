@@ -125,6 +125,10 @@ $(document).ready(function() {
         startedAnimationId = startAnimation();
     });
 
+    $("#start-animation-random").on("click", function() {
+        startedAnimationId = startAnimationRandom();
+    });
+
     $("#stop-animation").on("click", function() {
         clearInterval(startedAnimationId);
     });
@@ -163,15 +167,17 @@ function startAnimation() {
 
 function startAnimationRandom() {
 
-    redrawIntervalId = setInterval(function() {
+    redrawIntervalId = setInterval(function fn() {
         coloredLeds.push(...getColoredLedsForNumber(numbers[pointer], NUMBER_OF_VALUES));
         pointer++;
         if (pointer > (NUMBER_OF_VALUES-1)) {
             pointer = 0;
         }
         redrawDigitsRandom();
-    }, REFRESH_TIME_RANDOM);
+        return fn;
+    }(), REFRESH_TIME_RANDOM);
 
+    return redrawIntervalId;
 }
 
 function redrawDigits() {
