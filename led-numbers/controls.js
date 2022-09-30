@@ -50,6 +50,8 @@ function getDigits(number) {
 }
 
 function generateLedDisplay() {
+    $("circle").remove();
+
     // generate svg circle grid
     var svg = document.querySelector('svg');
     var svgNS = svg.namespaceURI;
@@ -131,6 +133,21 @@ $(document).ready(function() {
 
     $("#stop-animation").on("click", function() {
         clearInterval(startedAnimationId);
+    });
+
+    $("#reset-all").on("click", function() {
+        for (let i = 0; i < NUMBER_OF_VALUES; i++) {
+            numbers.push($("#value-" + i).val());
+        }
+        coloredLeds = [];
+        gapsLeds = [];
+        pointer = 0;
+        wait = LED_PANEL_WIDTH + 3;
+        countdown = COUNTDOWN_TIME;
+        clearInterval(startedAnimationId);
+        generateLedDisplay();
+        coloredLeds = getColoredLeds();
+        turnOnLeds(coloredLeds);
     });
 
     coloredLeds = getColoredLeds();
