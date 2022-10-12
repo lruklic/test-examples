@@ -1,11 +1,12 @@
 const routes = ["conf_list", "settings", "sensors"];
 
+let serial;
+
 $(document).ready(function() {
     
     $(".refresh").on("click", function() {
         fetch($(this).attr('id'));
-
-    });
+});
 
     for (let i = 0; i < routes.length; i++) {
         setTimeout(function() {
@@ -13,9 +14,12 @@ $(document).ready(function() {
         }, i*1000);
     }
 
-    $("#open-ws").on("click", function() {
-        socket();
+    $("#download").on("click", function() {
+        let fileName = "log-" + serial + "-" + new Date().toISOString(); 
+        downloadObjectAsJson(fileName);
     });
+
+    openWS();
     
 });
 
@@ -24,17 +28,40 @@ function fetch(id) {
         url: REST_ROUTE + id,
         type: "GET",
         success: function(data) {
-            // check if typeof string
             if (typeof data === "string") {
                 $("#fetch-" + id).html(data);
             } else {
+                if (id === "settings") {
+                    serial = data.serial;
+                }
                 $("#fetch-" + id).html(JSON.stringify(data, undefined, 4));
             }
         }
     });
 }
 
-function socket() {
+function downloadObjectAsJson(exportName){
+
+    let separator = "\n\n######################\n";
+
+    let stringOutput = $("#fetch-conf_list").val();
+    stringOutput += separator + "Settings \n";
+    stringOutput += $("#fetch-settings").val();
+    stringOutput += separator + "Sensors \n";
+    stringOutput += $("#fetch-sensors").val();
+    stringOutput += separator + "Websocket \n";
+    stringOutput += $("#ws-log").val();
+
+    let dataStr = "data:text/html;charset=utf-8," + encodeURIComponent(stringOutput);
+    let downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", exportName + ".txt");
+    document.body.appendChild(downloadAnchorNode); // required for firefox
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+  }
+
+function openWS() {
     if ("WebSocket" in window) {
         console.log("WebSocket is supported by your Browser!");
         
@@ -49,8 +76,7 @@ function socket() {
         };
 
         ws.onmessage = function (evt) {
-            let message = evt.timeStamp.toFixed(0) + "\t" + evt.data.replace("Luka", "Tomica") + "\n";
-            document.getElementById("ws-log").value += message; 
+            document.getElementById("ws-log").value += evt.data; 
         }
 
         ws.onclose = function() {
