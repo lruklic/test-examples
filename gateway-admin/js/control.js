@@ -21,7 +21,7 @@ $(document).ready(function() {
 
 function fetch(id) {
     $.ajax({
-        url: "http://172.16.0.1:8080/" + id,
+        url: REST_ROUTE + id,
         type: "GET",
         success: function(data) {
             // check if typeof string
@@ -39,7 +39,7 @@ function socket() {
         console.log("WebSocket is supported by your Browser!");
         
         // Let us open a web socket
-        var ws = new WebSocket("ws://172.16.0.1:8080/ws");
+        var ws = new WebSocket(WS_ROUTE);
         
         ws.onopen = function() {
             document.getElementById("ws-log").value = "Connection is established... \n";
