@@ -1,9 +1,17 @@
+const routes = ["conf_list", "settings", "sensors"];
+
 $(document).ready(function() {
     
     $(".refresh").on("click", function() {
         fetch($(this).attr('id'));
 
     });
+
+    for (let i = 0; i < routes.length; i++) {
+        setTimeout(function() {
+            fetch(routes[i]);
+        }, i*1000);
+    }
 
     $("#open-ws").on("click", function() {
         socket();
