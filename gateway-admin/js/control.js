@@ -43,7 +43,9 @@ function socket() {
         
         ws.onopen = function() {
             document.getElementById("ws-log").value = "Connection is established... \n";
-            ws.send("ping");
+            setInterval(function() {
+                ws.send("ping");
+            }, 1000);
         };
 
         ws.onmessage = function (evt) {
