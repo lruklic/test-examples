@@ -1,12 +1,23 @@
 .left-column {
     width: 50%;
+    float: left;
 }
 
 .right-column {
     width: 50%;
+    float: right;
 }
 
 .conf-text-area {
     width: 100%;
+    height: 300px;
+}
+
+.ws-text-area {
+    width: 100%;
     height: 900px;
+}
+
+.padding-top-10 {
+    padding-top: 10px;
 }

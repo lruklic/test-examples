@@ -4,21 +4,49 @@
         <title>Gateway Admin</title>
         <link rel="stylesheet" href="css/main.css">
         <script src="lib/jquery.min.js"></script>
+        <script src="js/constants.js"></script>
         <script src="js/control.js"></script>
     </head>
     <body>
         <div>
             <div class="left-column">
                 <div>
-                    <button id="fetch-data"> Fetch data </button>
+                    <button class="fetch-btn" id="conf_list" > Download </button>
+                </div>
+                <div class="padding-top-10">
+                    <span>
+                        <label for="conf_list">Config list</label>
+                        <button class="refresh" id="conf_list" > Reload </button>
+                    </span>
+                    <textarea class="conf-text-area" id="fetch-conf_list">
+                    </textarea>
                 </div>
                 <div>
-                    <textarea class="conf-text-area" id="conf-list">
+                    <span>
+                        <label for="settings">Settings</label>
+                        <button class="refresh" id="settings" > Reload </button>
+                    </span>
+                    <textarea class="conf-text-area" id="fetch-settings">
+                    </textarea>
+                </div>
+                <div>
+                    <span>
+                        <label for="settings">Sensors</label>
+                        <button class="refresh" id="Sensors" > Reload </button>
+                    </span>
+                    <textarea class="conf-text-area" id="fetch-settings">
                     </textarea>
                 </div>
             </div>
             <div class="right-column">
+                <div>
+                    <button id="open-ws"> Open WebSocket </button>
+                </div>
+                <div class="padding-top-10">
+                    <textarea class="ws-text-area" id="ws-log">
 
+                    </textarea>
+                </div>
             </div>
         </div>
     </body>
