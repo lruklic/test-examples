@@ -77,6 +77,7 @@ function openWS() {
 
         ws.onmessage = function (evt) {
             document.getElementById("ws-log").value += evt.data; 
+            document.getElementById("ws-log").scrollTop = document.getElementById("ws-log").scrollHeight;
         }
 
         ws.onclose = function() {
