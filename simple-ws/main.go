@@ -3,7 +3,10 @@ package main
 import (
 	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
+	"strconv"
+	"time"
 
 	"github.com/gorilla/websocket"
 )
@@ -47,6 +50,13 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 	err = ws.WriteMessage(1, []byte("Hi Client!"))
 	if err != nil {
 		log.Println(err)
+	}
+
+	var msg string = "I am writing big chunks of data to the websocket now and no one can stop me hahaha"
+
+	for range time.Tick(time.Millisecond * 50) {
+		result := strconv.Itoa(rand.Intn(1000)) + " " + msg + "\n"
+		err = ws.WriteMessage(1, []byte(result))
 	}
 
 	reader(ws)
