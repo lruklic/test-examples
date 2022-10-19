@@ -2,6 +2,9 @@ const routes = ["conf_list", "settings", "sensors"];
 
 let serial;
 
+let fullLog = [];
+let shownLog = [];
+
 $(document).ready(function() {
     
     $(".refresh").on("click", function() {
@@ -50,7 +53,7 @@ function downloadObjectAsJson(exportName){
     stringOutput += separator + "Sensors \n";
     stringOutput += $("#fetch-sensors").val();
     stringOutput += separator + "Websocket \n";
-    stringOutput += $("#ws-log").val();
+    stringOutput += fullLog.join("");
 
     let dataStr = "data:text/html;charset=utf-8," + encodeURIComponent(stringOutput);
     let downloadAnchorNode = document.createElement('a');
@@ -76,7 +79,12 @@ function openWS() {
         };
 
         ws.onmessage = function (evt) {
-            document.getElementById("ws-log").value += evt.data; 
+            fullLog.push(evt.data);
+            shownLog.push(evt.data);
+            if  (document.getElementById("ws-log").value.length > 10000) {
+                shownLog.shift();
+            }
+            document.getElementById("ws-log").value = shownLog.join(""); 
             document.getElementById("ws-log").scrollTop = document.getElementById("ws-log").scrollHeight;
         }
 
