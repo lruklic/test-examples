@@ -1,16 +1,24 @@
 const routes = ["conf_list", "settings", "sensors"];
 
+let ws;
+
 let serial;
 
 let fullLog = [];
 let shownLog = [];
 
 const logLength = (typeof MAX_WS_LOG_LENGTH !== 'undefined' ? MAX_WS_LOG_LENGTH : 20000);
+
 $(document).ready(function() {
     
     $(".refresh").on("click", function() {
         fetch($(this).attr('id'));
-});
+    });
+
+    $("#closeWs").on("click", function() {
+        ws.close();
+        console.log("Connection was closed by user...\n");
+    });
 
     for (let i = 0; i < routes.length; i++) {
         setTimeout(function() {
@@ -70,7 +78,7 @@ function openWS() {
         console.log("WebSocket is supported by your Browser!");
         
         // Let us open a web socket
-        var ws = new WebSocket(WS_ROUTE);
+        ws = new WebSocket(WS_ROUTE);
         
         ws.onopen = function() {
             document.getElementById("ws-log").value = "Connection is established... \n";
