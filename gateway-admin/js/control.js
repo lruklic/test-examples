@@ -8,6 +8,8 @@ let fullLog = [];
 let shownLog = [];
 
 const logLength = (typeof MAX_WS_LOG_LENGTH !== 'undefined' ? MAX_WS_LOG_LENGTH : 20000);
+const restRoute = (typeof REST_ROUTE !== 'undefined' ? REST_ROUTE : "http://localhost:8080/");
+const wsRoute = (typeof WS_ROUTE !== 'undefined' ? WS_ROUTE : "ws://localhost:8080/ws");
 
 $(document).ready(function() {
     
