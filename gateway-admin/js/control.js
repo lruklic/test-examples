@@ -73,9 +73,7 @@ function openWS() {
         
         ws.onopen = function() {
             document.getElementById("ws-log").value = "Connection is established... \n";
-            setInterval(function() {
-                ws.send("ping");
-            }, 1000);
+            ws.send("ping");
         };
 
         ws.onmessage = function (evt) {
