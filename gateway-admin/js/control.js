@@ -92,7 +92,9 @@ function openWS() {
                 shownLog.shift();
             }
             document.getElementById("ws-log").value = shownLog.join(""); 
-            document.getElementById("ws-log").scrollTop = document.getElementById("ws-log").scrollHeight;
+            if ($("#wsAutoScroll").is(":checked")) {
+                document.getElementById("ws-log").scrollTop = document.getElementById("ws-log").scrollHeight;
+            }
         }
 
         ws.onclose = function() {
