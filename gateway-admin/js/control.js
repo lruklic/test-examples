@@ -5,6 +5,7 @@ let serial;
 let fullLog = [];
 let shownLog = [];
 
+const logLength = (typeof MAX_WS_LOG_LENGTH !== 'undefined' ? MAX_WS_LOG_LENGTH : 20000);
 $(document).ready(function() {
     
     $(".refresh").on("click", function() {
@@ -79,7 +80,7 @@ function openWS() {
         ws.onmessage = function (evt) {
             fullLog.push(evt.data);
             shownLog.push(evt.data);
-            if  (document.getElementById("ws-log").value.length > 10000) {
+            if  (document.getElementById("ws-log").value.length > logLength) {
                 shownLog.shift();
             }
             document.getElementById("ws-log").value = shownLog.join(""); 
