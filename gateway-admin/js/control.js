@@ -83,6 +83,7 @@ function openWS() {
         ws = new WebSocket(WS_ROUTE);
         
         ws.onopen = function() {
+            console.log("Connection is open...");
             document.getElementById("ws-log").value = "Connection is established... \n";
             ws.send("ping");
         };
@@ -99,7 +100,12 @@ function openWS() {
             }
         }
 
+        ws.onerror = function (evt) {
+            console.log("Error: " + evt.data);
+        };
+
         ws.onclose = function() {
+            console.log("Connection is closed...");
             document.getElementById("ws-log").value += "Connection is closed...\n";
         }
     }
