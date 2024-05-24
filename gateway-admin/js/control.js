@@ -12,7 +12,20 @@ const restRoute = (typeof REST_ROUTE !== 'undefined' ? REST_ROUTE : "http://loca
 const wsRoute = (typeof WS_ROUTE !== 'undefined' ? WS_ROUTE : "ws://localhost:8080/ws");
 
 $(document).ready(function() {
-    
+   
+    $('body').on('click', '.radio-group', function() {
+        let name = $(this).find("input").attr("name");
+        let value = $(this).find("input").val();
+        console.log(JSON.stringify({"logs" : [{tag: name, level: value}]}));
+        $.ajax({
+            url: REST_ROUTE + "loglevel",
+            type: "POST",
+            data: JSON.stringify({"logs" : [{tag: name, level: value}]}),                        
+        });
+    });
+
+    fetchLogLevels();
+
     $(".refresh").on("click", function() {
         fetch($(this).attr('id'));
     });
@@ -37,6 +50,44 @@ $(document).ready(function() {
     
 });
 
+function fetchLogLevels() {
+
+    const generateAlertTags = function(alertTags) {
+        if (alertTags.length > 0) {
+            let tags = "";
+            let radioGroup = "";
+            for (let i = 0; i < alertTags.length; i++) {
+                tags += `<div class="padding-top-5 height-25 tag">${alertTags[i].tag}</div>`;
+                let radioGroupInputs = "";
+                for (let j = 0; j < 6; j++) {
+                    radioGroupInputs += `<div class="radio-group"><input type="radio" name="${alertTags[i].tag}" value="${j}" ${j == alertTags[i]?.level  ? `checked="checked"` : ""}></div>`;
+                }
+                radioGroup += `<div class="row height-25 padding-top-5"><div class="level-label"></div>${radioGroupInputs}</div>`;
+            }
+            $(".tags-container").append(tags);
+            $(".level-container").append(radioGroup);            
+        }
+    }
+
+    // remove when API implemented
+    let demo = {
+        "logs": [
+            {"tag":"koa_comm", "level":2},
+            {"tag":"emgw_lcd", "level":2},
+        ]
+    }
+    generateAlertTags(demo.logs);
+
+/*     $.ajax({
+        url: REST_ROUTE + "loglevel",
+        type: "GET",
+        success: function(data) {
+            generateAlertTags(demo.logs);
+        }
+    }); */
+
+}
+
 function fetch(id) {
     $.ajax({
         url: REST_ROUTE + id,
@@ -52,6 +103,7 @@ function fetch(id) {
             }
         }
     });
+
 }
 
 function downloadObjectAsJson(exportName){
